@@ -1,5 +1,8 @@
-venv/*
-.idea/*
 config.py
+playground.py
+playground2.py
+
 _secrets/*
 __pycache__/*
+venv/*
+.idea/*
