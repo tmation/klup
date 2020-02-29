@@ -1,6 +1,8 @@
 config.py
 playground.py
 playground2.py
+scrip_db.py
+test.csv
 
 _secrets/*
 __pycache__/*
