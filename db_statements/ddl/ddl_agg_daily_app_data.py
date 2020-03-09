@@ -12,6 +12,6 @@ CREATE TABLE IF NOT EXISTS `klup_tmation`.`agg_daily_app_data` (
     `update_events` int,
     `uninstall_events` int,
     
-    PRIMARY KEY (`day`)
+    PRIMARY KEY (`day`, `store`)
 );
 """

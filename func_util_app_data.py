@@ -5,25 +5,27 @@ sys.path.append('/sql')
 
 import config
 import constants as const
-from ddl.agg_daily_app_data import ddl_table
-from sql.agg_daily_app_data import insert_table
 
 from submodules.gcloud_storage_py import gcloud_storage_py
-
-import pandas as pd
-pd.options.display.max_columns = 10
-import pygsheets
 
 import mysql.connector
 
 gcs = gcloud_storage_py.GCloudStorage(config.GOOGLE_KLUP_SERVICE_FILE)
-# pyg = pygsheets.authorize(service_account_file=config.GOOGLE_TMATION_SERVICE_FILE)
 conn = mysql.connector.connect(
     user=config.DB_USER,
     password=config.DB_PASSWORD,
     host=config.DB_HOST,
     database=config.DB_NAME
 )
+
+def make_db_connection(config):
+    conn = mysql.connector.connect(
+        user=config.DB_USER,
+        password=config.DB_PASSWORD,
+        host=config.DB_HOST,
+        database=config.DB_NAME
+    )
+    return conn
 
 def get_google_installs_report(month):
     '''Returns a DF for metrics specified in config for all days available in a given month.'''
@@ -45,12 +47,12 @@ def add_store_to_df(df, store):
     df['store'] = store
     return df
 
-def create_table(ddl):
-    cursor = conn.cursor()
+def create_table(ddl, con):
+    cursor = con.cursor()
     cursor.execute(ddl)
     cursor.close()
 
-def replace_operation(df, sql):
+def replace_operation(df, sql, conn):
     for row in range(df.shape[0]):
         data = {
             'day':str(df.loc[row, 'day']),
@@ -70,13 +72,13 @@ def replace_operation(df, sql):
         conn.commit()
         cursor.close()
 
-rep = get_google_installs_report('202003')
-create_table(ddl_table)
-rep = add_store_to_df(rep, 'google')
-
-replace_operation(rep, insert_table)
-
-conn.close()
+# rep = get_google_installs_report('202003')
+# # create_table(ddl_table)
+# rep = add_store_to_df(rep, 'google')
+#
+# replace_operation(rep, insert_table)
+#
+# conn.close()
 
 
 
