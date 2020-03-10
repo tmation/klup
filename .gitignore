@@ -3,6 +3,7 @@ playground.py
 playground2.py
 scrip_db.py
 test.csv
+*.pyc
 
 _secrets/*
 __pycache__/*
