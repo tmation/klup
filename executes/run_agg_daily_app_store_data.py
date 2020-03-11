@@ -5,9 +5,7 @@ from sql import agg_daily_app_store_data
 import datetime
 import mysql.connector
 
-from apscheduler.schedulers.blocking import BlockingScheduler
-
-def cronjob_update_app_daily_app_store_data():
+def cronjob():
 
     conn = mysql.connector.connect(
         user=config.DB_KLUP_USER,
@@ -37,10 +35,4 @@ def cronjob_update_app_daily_app_store_data():
 
     conn.close()
 
-sched = BlockingScheduler()
 
-@sched.scheduled_job('cron',day_of_week='mon-sun',hour=3)
-def scheduled_job():
-    cronjob_update_app_daily_app_store_data()
-
-sched.start()
