@@ -3,9 +3,10 @@ playground.py
 playground2.py
 scrip_db.py
 test.csv
-*.pyc
 constants.py
 creds.py
+*.pyc
+
 
 _secrets/*
 __pycache__/*
