@@ -1,10 +1,9 @@
 import sys
 sys.path.append('/db_statements')
 
-import func_util_app_data as fu
-import config
-from db_statements.ddl import ddl_agg_daily_app_data
-from db_statements.sql import sql_agg_daily_app_data
+from archive import func_util_app_data as fu, config
+from archive.db_statements.ddl import ddl_agg_daily_app_data
+from archive.db_statements.sql import sql_agg_daily_app_data
 
 from datetime import datetime
 

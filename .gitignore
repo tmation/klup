@@ -1,12 +1,15 @@
-config.py
+archive/config.py
 playground.py
 playground2.py
 scrip_db.py
 test.csv
 *.pyc
+constants.py
+creds.py
 
 _secrets/*
 __pycache__/*
 venv/*
 .idea/*
 .vscode/*
+archive/*

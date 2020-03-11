@@ -3,7 +3,7 @@ sys.path.append('/submodules')
 sys.path.append('/ddl')
 sys.path.append('/sql')
 
-import config
+from archive import config
 import constants as const
 
 from submodules.gcloud_storage_py import gcloud_storage_py

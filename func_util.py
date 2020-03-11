@@ -5,12 +5,12 @@ sys.path.append('/submodules')
 sys.path.append('/sql')
 
 import config
-from appfigures_py import appfigures_py
-from sql import agg_daily_app_store_data
+# from appfigures_py import appfigures_py
+
+from submodules.appfigures_py import appfigures_py
 
 from datetime import datetime, timedelta
 import mysql.connector
-import pandas as pd
 
 af = appfigures_py.AppFigures(
     config.AF_CLIENT_ID,
