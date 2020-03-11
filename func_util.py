@@ -2,10 +2,11 @@ import sys
 
 sys.path.append('..')
 sys.path.append('/submodules')
+sys.path.append('../submodules')
 sys.path.append('/sql')
+sys.path.append('../sql')
 
 import config
-# from appfigures_py import appfigures_py
 
 from submodules.appfigures_py import appfigures_py
 
