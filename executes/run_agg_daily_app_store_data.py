@@ -1,4 +1,7 @@
-from archive import config
+import sys
+sys.path.append('..')
+
+import config
 import func_util as fu
 from sql import agg_daily_app_store_data
 
