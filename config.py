@@ -1,5 +1,4 @@
 import os
-import creds
 
 is_prod = os.environ.get('IS_HEROKU', None)
 
@@ -15,6 +14,9 @@ if is_prod:
     DB_KLUP_USER = os.environ.get('DB_KLUP_USER', None)
 
 else:
+
+    import creds
+
     AF_ACCESS_TOKEN = creds.AF_ACCESS_TOKEN
     AF_ACCESS_TOKEN_SECRET = creds.AF_ACCESS_TOKEN_SECRET
     AF_CLIENT_ID = creds.AF_CLIENT_ID
