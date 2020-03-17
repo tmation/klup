@@ -24,10 +24,8 @@ conn = mysql.connector.connect(
     user=config.DB_KLUP_USER,
     password=config.DB_KLUP_PASSWORD,
     host=config.DB_KLUP_HOST,
-    database=config.DB_KLUP_NAME,
+    database=config.DB_KLUP_NAME
 )
-
-mysql.connector.unix
 
 def convert_keys_to_string(dictionary):
     """Recursively converts dictionary keys to strings."""
