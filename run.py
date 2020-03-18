@@ -14,7 +14,7 @@ conn = mysql.connector.connect(
 )
 
 start = datetime.datetime.strptime("2020-03-10", "%Y-%m-%d")
-end = datetime.datetime.strptime("2020-03-13", "%Y-%m-%d")
+end = datetime.datetime.strptime("2020-03-12", "%Y-%m-%d")
 date_generated = [start + datetime.timedelta(days=x) for x in range(0, (end-start).days)]
 
 date_list = []
