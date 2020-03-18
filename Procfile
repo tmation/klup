@@ -1,1 +1,1 @@
-clock: bin/qgtunnel python executes/cronjobs.py
+clock: bin/qgtunnel python cronjobs.py
