@@ -13,8 +13,8 @@ conn = mysql.connector.connect(
     database=config.DB_KLUP_NAME
 )
 
-start = datetime.datetime.strptime("2020-03-10", "%Y-%m-%d")
-end = datetime.datetime.strptime("2020-03-12", "%Y-%m-%d")
+start = datetime.datetime.strptime("2019-01-01", "%Y-%m-%d")
+end = datetime.datetime.strptime("2019-01-02", "%Y-%m-%d")
 date_generated = [start + datetime.timedelta(days=x) for x in range(0, (end-start).days)]
 
 date_list = []
@@ -23,7 +23,7 @@ for date in date_generated:
 
 for date in date_list:
     data_stores = fu.get_store_reports_per_day(date)
-    data = fu.convert_keys_to_string(data_stores[0])
+    # data = fu.convert_keys_to_string(data_stores[0])
 
     for data in data_stores:
         print(data)
