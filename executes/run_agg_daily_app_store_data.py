@@ -10,6 +10,8 @@ import mysql.connector
 
 def cronjob():
 
+    print('Starting job {}'.format('daily_app_store_data'))
+
     conn = mysql.connector.connect(
         user=config.DB_KLUP_USER,
         password=config.DB_KLUP_PASSWORD,
@@ -20,6 +22,9 @@ def cronjob():
     start = (datetime.datetime.now() - datetime.timedelta(days=2))
     end = (datetime.datetime.now() - datetime.timedelta(days=0))
     date_generated = [start + datetime.timedelta(days=x) for x in range(0, (end-start).days)]
+
+    print('Start Date: '.format(start.strftime('%Y-%m-%d')))
+    print('End Date: '.format(end.strftime('%Y-%m-%d')))
 
     date_list = []
     for date in date_generated:
@@ -32,5 +37,7 @@ def cronjob():
             fu.replace_data(agg_daily_app_store_data.replace, data, conn)
 
     conn.close()
+
+    print('Ending job {}'.format('daily_app_store_data'))
 
 
