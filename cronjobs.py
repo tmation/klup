@@ -13,8 +13,8 @@ def my_listener(event):
 
 sched.add_listener(my_listener, EVENT_JOB_ERROR)
 
-@sched.scheduled_job('cron',day_of_week='mon-sun',hour=15,id='daily_app_store_data')
-def run_agg_daily_app_store_data():
+@sched.scheduled_job('cron',day_of_week='mon-sun',hour=15,minute=5,id='daily_app_store_data')
+def execute_agg_daily_app_store_data():
     run_agg_daily_app_store_data.cronjob()
 
 sched.start()
