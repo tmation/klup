@@ -1,0 +1,6 @@
+
+[qgtunnel.0]
+accept = "127.0.0.1:3306"
+connect = "klupmariadb.mariadb.database.azure.com:3306"
+encrypted = false
+transparent = true
