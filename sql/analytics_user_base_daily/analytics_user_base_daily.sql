@@ -1,4 +1,4 @@
-REPLACE INTO `klup_tmation`.`analytics_user_base_daily`
+REPLACE INTO `{db_name}`.`{table_name}`
 
 SELECT
 				CURRENT_DATE() AS datestr,

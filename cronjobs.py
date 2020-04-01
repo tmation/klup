@@ -1,5 +1,6 @@
 from executes import run_agg_daily_app_store_data
-from executes import run_analytics_user_base_daily
+
+from pipeliner import import run_pipeline
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR
@@ -18,8 +19,14 @@ sched.add_listener(my_listener, EVENT_JOB_ERROR)
 def execute_agg_daily_app_store_data():
     run_agg_daily_app_store_data.cronjob()
 
-@sched.scheduled_job('cron',day_of_week='mon-sun',hour=2, id='daily_user_base')
+# ANALYTICS_USER_BASE_DAILY
+@sched.scheduled_job('cron',day_of_week='mon-sun',hour=2, id='analytics_user_base_daily')
 def execute_analytics_user_base_daily():
-    run_analytics_user_base_daily.cronjob()
+    run_pipeline('analytics_user_base_daily')
+
+# ANALYTICS_FRIENDSHIPS_DAILY
+@sched.scheduled_job('cron',day_of_week='mon-sun',hour=2, id='analytics_friendships_daily')
+def execute_analytics_friendships_daily():
+    run_pipeline('analytics_friendships_daily')
 
 sched.start()

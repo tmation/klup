@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS klup_tmation.analytics_user_base_daily (
+CREATE TABLE IF NOT EXISTS `{db_name}`.`{table_name}` (
 	datestr varchar(10),
 	dormant_users integer,
 	active_1d integer,
