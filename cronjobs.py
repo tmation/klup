@@ -29,4 +29,9 @@ def execute_analytics_user_base_daily():
 def execute_analytics_friendships_daily():
     run_pipeline('analytics_friendships_daily')
 
+# ANALYTICS_ACTIVE_KLUPPER_DETAILS
+@sched.scheduled_job('cron',day_of_week='mon-sun',hour=2, id='analytics_active_klupper_details')
+def execute_analytics_active_klupper_details():
+    run_pipeline('analytics_active_klupper_details')
+
 sched.start()
