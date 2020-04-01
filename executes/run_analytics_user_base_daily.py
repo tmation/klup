@@ -24,10 +24,11 @@ def cronjob():
 
     cur = conn.cursor()
     cur.execute(ddl)
-
-    cur = conn.cursor()
     cur.execute(sql)
 
+    conn.commit()
+
+    cur.close()
     conn.close()
 
     print('Ending job {}'.format('daily_analytics_user_base'))
