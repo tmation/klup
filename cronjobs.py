@@ -1,6 +1,6 @@
 from executes import run_agg_daily_app_store_data
 
-from pipeliner import import run_pipeline
+from pipeliner import run_pipeline
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR
