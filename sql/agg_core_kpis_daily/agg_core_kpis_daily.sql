@@ -7,13 +7,13 @@ WITH
 
 dates AS (
 	SELECT DISTINCT
-					dd.datestr,
-                    dd.date
+	                dd.datestr,
+	                dd.date
 
-	FROM			klup_tmation.dim_date dd
+	FROM            klup_tmation.dim_date dd
 
-    WHERE			1=1
-    AND				dd.date BETWEEN '{START_DATE}' AND '{END_DATE}'
+    WHERE           1=1
+    AND             dd.date BETWEEN '{START_DATE}' AND '{END_DATE}'
 )
 
 , activities AS (
