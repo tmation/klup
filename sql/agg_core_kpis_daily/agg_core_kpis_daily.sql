@@ -12,8 +12,8 @@ dates AS (
 
 	FROM            klup_tmation.dim_date dd
 
-    WHERE           1=1
-    AND             dd.date BETWEEN '{START_DATE}' AND '{END_DATE}'
+	WHERE           1=1
+	AND             dd.date BETWEEN '{START_DATE}' AND '{END_DATE}'
 )
 
 , activities AS (
