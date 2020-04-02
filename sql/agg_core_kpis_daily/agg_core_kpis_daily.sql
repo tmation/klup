@@ -169,7 +169,7 @@ dates AS (
 	GROUP BY		1
 ), 
 
-klupper_first_activity AS (
+klupper_first_activity_window AS (
 	SELECT 				ap.klupper_id,
 						ap.activity_id,
                         a.datetime_start,
@@ -179,7 +179,16 @@ klupper_first_activity AS (
 	WHERE 				a.is_cancelled = 0 
 	AND 				a.status = 'NORMAL'
 	AND 				ap.status = 'NORMAL'	
+),
+
+klupper_first_activity AS (
+	SELECT 		datetime_start, 
+			CAST(COUNT(DISTINCT CASE WHEN activity_number = 1 THEN klupper_id END) AS DOUBLE) AS first_activity_users
+	FROM		klupper_first_activity_window
+	GROUP BY 1
 )
+
+
 
 SELECT
 				d.datestr,
