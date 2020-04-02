@@ -13,7 +13,7 @@ dates AS (
 	FROM			klup_tmation.dim_date dd
 
     WHERE			1=1
-    AND				dd.date BETWEEN '2020-01-01' AND '2020-02-28'
+    AND				dd.date BETWEEN '{START_DATE}' AND '{END_DATE}'
 )
 
 , activities AS (
@@ -45,7 +45,7 @@ dates AS (
 	ON				a.id = ap.activity_id
 
 	WHERE 			1=1
-	AND				a.datetime_start BETWEEN '2020-01-01' AND '2020-02-28'
+	AND				a.datetime_start BETWEEN '{START_DATE}' AND '{END_DATE}'
 
 	GROUP BY 1
 )
@@ -74,7 +74,7 @@ dates AS (
     FROM			klup_tmation.agg_daily_app_store_data adad
 
 	WHERE			1=1
-    AND				day BETWEEN '2020-01-01' AND '2020-02-28'
+    AND				day BETWEEN '{START_DATE}' AND '{END_DATE}'
 
     GROUP BY 		1
 )
@@ -87,9 +87,10 @@ dates AS (
 	FROM			klup_tmation.ORDER o
 	LEFT JOIN		klup_tmation.subscription s
 	ON				s.id = o.subscription_id
+
 	WHERE 			1=1
 	AND				o.status = 'paid'
-	AND				o.create_date BETWEEN '2020-01-01' AND '2020-02-28'
+	AND				o.create_date BETWEEN '{START_DATE}' AND '{END_DATE}'
 	GROUP BY 		1
 )
 
