@@ -183,7 +183,7 @@ klupper_first_activity_window AS (
 
 klupper_first_activity AS (
 	SELECT 		datetime_start, 
-			CAST(COUNT(DISTINCT CASE WHEN activity_number = 1 THEN klupper_id END) AS DOUBLE) AS first_activity_users
+			COUNT(DISTINCT CASE WHEN activity_number = 1 THEN klupper_id END) AS first_activity_users
 	FROM		klupper_first_activity_window
 	GROUP BY 1
 )
