@@ -18,8 +18,8 @@ dates AS (
 
 , activities AS (
 	SELECT
-					klup_tmation.DATE_TRUNC('day', a.datetime_start) as day,
-                    COUNT(DISTINCT a.id) as activities_organized,
+					klup_tmation.DATE_TRUNC('day', a.datetime_start) AS day,
+                    COUNT(DISTINCT a.id) AS activities_organized,
 					COUNT(DISTINCT
 						CASE
 							WHEN a.is_cancelled = 0 THEN a.id
@@ -84,7 +84,7 @@ dates AS (
 					klup_tmation.DATE_TRUNC('day', o.create_date) AS day,
 					COUNT(DISTINCT o.klupper_id) AS paying_users,
 					SUM(s.amount) AS revenue
-	FROM			klup_tmation.order o
+	FROM			klup_tmation.ORDER o
 	LEFT JOIN		klup_tmation.subscription s
 	ON				s.id = o.subscription_id
 	WHERE 			1=1
