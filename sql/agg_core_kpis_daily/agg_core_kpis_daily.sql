@@ -167,28 +167,17 @@ dates AS (
 					)
 
 	GROUP BY		1
-), 
-
-klupper_first_activity_window AS (
-	SELECT 				ap.klupper_id,
-						ap.activity_id,
-                        a.datetime_start,
-						ROW_NUMBER() OVER (PARTITION BY ap.klupper_id ORDER BY a.datetime_start) AS activity_number
-	FROM 				klup_tmation.activity_participant ap 
-	JOIN 				klup_tmation.activity a ON ap.activity_id = a.id
-	WHERE 				a.is_cancelled = 0 
-	AND 				a.status = 'NORMAL'
-	AND 				ap.status = 'NORMAL'	
-),
-
-klupper_first_activity AS (
-	SELECT 		datetime_start, 
-			COUNT(DISTINCT CASE WHEN activity_number = 1 THEN klupper_id END) AS first_activity_users
-	FROM		klupper_first_activity_window
-	GROUP BY 1
 )
 
+, klupper_first_activity AS (
+    SELECT DISTINCT
+                    DATE(aakd.first_activity_date) AS datestr,
+                    COUNT(DISTINCT aakd.id) AS first_activity_users
 
+    FROM            analytics_active_klupper_details aakd
+
+    WHERE           aakd.first_activity_date BETWEEN '{START_DATE}' AND '{END_DATE}'
+)
 
 SELECT
 				d.datestr,
@@ -223,6 +212,7 @@ SELECT
                 0 AS daily_signups,
 
                 kfa.first_activity_users,
+
                 -- User Base
 				aubd.dormant_users,
                 aubd.active_1d,
@@ -258,8 +248,7 @@ LEFT JOIN 		analytics_user_base_daily aubd
 ON				DATE(aubd.datestr) = DATE(d.datestr)
 
 LEFT JOIN 		klupper_first_activity kfa
-ON 			 	DATE_TRUNC('day', datetime_start) = d.datestr
-
+ON 			 	DATE(kfa.datestr) = DATE(d.datestr)
 
 GROUP BY 		1
 ;
