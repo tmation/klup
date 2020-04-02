@@ -42,8 +42,7 @@ dates AS (
                     ) AS active_attendees
 
     FROM            klup_tmation.activity a
-
-	LEFT JOIN 		klup_tmation.activity_participant ap
+    LEFT JOIN 		klup_tmation.activity_participant ap
 	ON              a.id = ap.activity_id
 
 	WHERE           1=1
