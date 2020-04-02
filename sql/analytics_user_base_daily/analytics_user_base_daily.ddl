@@ -11,5 +11,7 @@ CREATE TABLE IF NOT EXISTS `{db_name}`.`{table_name}` (
   active_180d integer,
   active_cur_month integer,
 
+  _loaded_at DATETIME,
+
   PRIMARY KEY (datestr)
 )

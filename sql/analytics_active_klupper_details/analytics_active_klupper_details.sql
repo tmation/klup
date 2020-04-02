@@ -42,7 +42,9 @@ SELECT DISTINCT
                 MAX(CASE WHEN kfep1.activity_rank = 1 THEN kfep1.event_date END) AS first_activity_date,
                 MAX(CASE WHEN kfep1.activity_rank = 2 THEN kfep1.event_date END) AS second_activity_date,
                 COUNT(DISTINCT kfep1.activity_id) AS activity_visited,
-                COUNT(DISTINCT kfrp2.friendship_id) AS friendship_count
+                COUNT(DISTINCT kfrp2.friendship_id) AS friendship_count,
+
+                CURRENT_TIMESTAMP AS _loaded_at
 
 
 FROM            klupper k

@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `{db_name}`.`{table_name}` (
 	second_activity_date DATETIME,
 	activity_visited INTEGER,
 	friendship_count INTEGER,
+	_loaded_at DATETIME,
 
 PRIMARY KEY(id)
 )

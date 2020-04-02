@@ -47,7 +47,7 @@ dates AS (
 	ON              a.id = ap.activity_id
 
 	WHERE           1=1
-	AND             a.datetime_start BETWEEN '{START_DATE}' AND '{END_DATE}'
+	AND				a.datetime_start BETWEEN '{START_DATE}' AND '{END_DATE}'
 
 	GROUP BY 1
 )

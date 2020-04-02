@@ -4,5 +4,7 @@ CREATE TABLE IF NOT EXISTS `{db_name}`.`{table_name}` (
 	friendships_active integer,
 	friendships_created integer,
 
+	_loaded_at DATETIME,
+
 PRIMARY KEY(datestr)
 )
