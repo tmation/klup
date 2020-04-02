@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS klup_tmation.agg_daily_app_store_data (
 	edu_revenue float,
 	returns_amount float,
 	gross_returns_amount float,
+	_loaded_at datetime,
     
     PRIMARY KEY (day, store)
 )
@@ -44,6 +45,7 @@ REPLACE INTO `klup_tmation`.`agg_daily_app_store_data` VALUES (
 	%(returns)s,
 	%(edu_revenue)s,
 	%(returns_amount)s,
-	%(gross_returns_amount)s
+	%(gross_returns_amount)s,
+	%(_loaded_at)s
 );
 """

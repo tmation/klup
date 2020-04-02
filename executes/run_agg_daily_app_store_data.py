@@ -34,6 +34,7 @@ def cronjob():
         data_stores = fu.get_store_reports_per_day(date)
 
         for data in data_stores:
+            data['_loaded_at'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             fu.replace_data(agg_daily_app_store_data.replace, data, conn)
 
     conn.close()
