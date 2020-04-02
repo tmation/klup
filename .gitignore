@@ -2,6 +2,7 @@ archive/config.py
 playground.py
 playground2.py
 scrip_db.py
+sql_executer.py
 test.csv
 constants.py
 creds.py

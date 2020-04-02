@@ -178,6 +178,16 @@ dates AS (
     WHERE           aakd.first_activity_date BETWEEN '{START_DATE}' AND '{END_DATE}'
 )
 
+, klupper_sign_ups AS (
+	SELECT DISTINCT
+					DATE(k.registration_date) AS datestr,
+					COUNT(DISTINCT k.id) AS daily_signups
+
+	FROM			klupper k
+
+	WHERE			k.registration_date BETWEEN '{START_DATE}' AND '{END_DATE}'
+)
+
 SELECT
 				d.datestr,
 
@@ -208,7 +218,7 @@ SELECT
                 btu.basic_users AS basic_users,
                 0 AS referrals,
                 0 AS daily_active_users,
-                0 AS daily_signups,
+                ksu.daily_signups AS daily_signups,
 
                 kfa.first_activity_users,
 
@@ -248,6 +258,9 @@ ON				DATE(aubd.datestr) = DATE(d.datestr)
 
 LEFT JOIN 		klupper_first_activity kfa
 ON 			 	DATE(kfa.datestr) = DATE(d.datestr)
+
+LEFT JOIN		klupper_sign_ups ksu
+ON				DATE(ksu.datestr) = DATE(d.datestr)
 
 GROUP BY 		1
 ;
