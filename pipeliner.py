@@ -6,7 +6,7 @@ import config
 from datetime import datetime
 import mysql.connector
 
-def run_pipeline(table_name, pipeline_id=None):
+def run_pipeline(table_name, pipeline_id=None, query_params={}):
 
     if not pipeline_id:
         pipeline_id = table_name
@@ -24,7 +24,7 @@ def run_pipeline(table_name, pipeline_id=None):
         ddl = file.read().format(db_name=config.DB_KLUP_NAME, table_name=table_name)
 
     with open('sql/{}/{}.sql'.format(table_name, table_name), 'r') as file:
-        sql = file.read().format(db_name=config.DB_KLUP_NAME, table_name=table_name)
+        sql = file.read().format(db_name=config.DB_KLUP_NAME, table_name=table_name, **query_params)
 
     cur = conn.cursor()
     cur.execute(ddl)

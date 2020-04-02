@@ -22,16 +22,16 @@ def execute_agg_daily_app_store_data():
 # ANALYTICS_USER_BASE_DAILY
 @sched.scheduled_job('cron',day_of_week='mon-sun',hour=2, id='analytics_user_base_daily')
 def execute_analytics_user_base_daily():
-    run_pipeline('analytics_user_base_daily')
+    run_pipeline(table_name='analytics_user_base_daily')
 
 # ANALYTICS_FRIENDSHIPS_DAILY
 @sched.scheduled_job('cron',day_of_week='mon-sun',hour=2, id='analytics_friendships_daily')
 def execute_analytics_friendships_daily():
-    run_pipeline('analytics_friendships_daily')
+    run_pipeline(table_name='analytics_friendships_daily')
 
 # ANALYTICS_ACTIVE_KLUPPER_DETAILS
 @sched.scheduled_job('cron',day_of_week='mon-sun',hour=2, id='analytics_active_klupper_details')
 def execute_analytics_active_klupper_details():
-    run_pipeline('analytics_active_klupper_details')
+    run_pipeline(table_name='analytics_active_klupper_details')
 
 sched.start()

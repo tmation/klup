@@ -3,6 +3,8 @@
 
 SET STATEMENT SQL_BIG_SELECTS=1 FOR
 
+REPLACE INTO `{db_name}`.`{table_name}`
+
 WITH
 
 dates AS (
@@ -231,7 +233,9 @@ SELECT
                 aubd.active_60d,
                 aubd.active_90d,
                 aubd.active_180d,
-                aubd.active_cur_month
+                aubd.active_cur_month,
+
+                CURRENT_TIMESTAMP AS _loaded_at
 
 FROM			dates d
 
