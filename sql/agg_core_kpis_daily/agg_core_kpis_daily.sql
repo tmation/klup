@@ -47,7 +47,7 @@ dates AS (
 	ON              a.id = ap.activity_id
 
 	WHERE           1=1
-	AND				a.datetime_start BETWEEN '{START_DATE}' AND '{END_DATE}'
+	AND             a.datetime_start BETWEEN '{START_DATE}' AND '{END_DATE}'
 
 	GROUP BY 1
 )
@@ -167,6 +167,18 @@ dates AS (
 					)
 
 	GROUP BY		1
+), 
+
+klupper_first_activity AS (
+	SELECT 				ap.klupper_id,
+						ap.activity_id,
+                        a.datetime_start,
+						ROW_NUMBER() OVER (PARTITION BY ap.klupper_id ORDER BY a.datetime_start) AS activity_number
+	FROM 				klup_tmation.activity_participant ap 
+	JOIN 				klup_tmation.activity a ON ap.activity_id = a.id
+	WHERE 				a.is_cancelled = 0 
+	AND 				a.status = 'NORMAL'
+	AND 				ap.status = 'NORMAL'	
 )
 
 SELECT
@@ -201,7 +213,7 @@ SELECT
                 0 AS daily_active_users,
                 0 AS daily_signups,
 
-                0 AS first_activity_perc,
+                kfa.first_activity_users,
                 -- User Base
 				aubd.dormant_users,
                 aubd.active_1d,
@@ -235,6 +247,10 @@ ON				DATE(btu.day) = DATE(d.datestr)
 
 LEFT JOIN 		analytics_user_base_daily aubd
 ON				DATE(aubd.datestr) = DATE(d.datestr)
+
+LEFT JOIN 		klupper_first_activity kfa
+ON 			 	DATE_TRUNC('day', datetime_start) = d.datestr
+
 
 GROUP BY 		1
 ;
