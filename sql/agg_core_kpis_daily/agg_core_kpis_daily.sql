@@ -18,34 +18,36 @@ dates AS (
 
 , activities AS (
 	SELECT
-					klup_tmation.DATE_TRUNC('day', a.datetime_start) AS day,
-                    COUNT(DISTINCT a.id) AS activities_organized,
-					COUNT(DISTINCT
-						CASE
-							WHEN a.is_cancelled = 0 THEN a.id
-							ELSE NULL
-						END) AS activities_happened,
-					COUNT(DISTINCT a.klupper_id) AS organizer_count,
-					COUNT(DISTINCT
-						CASE
-							WHEN a.is_cancelled = 0 THEN a.klupper_id
-							ELSE NULL
-						END) AS active_organizer_count,
-					COUNT(DISTINCT ap.klupper_id) AS attendees,
-					COUNT(DISTINCT
-						CASE
-							WHEN a.is_cancelled = 0 THEN ap.klupper_id
-							ELSE NULL
-						END) AS active_attendees
+	                klup_tmation.DATE_TRUNC('day', a.datetime_start) AS day,
+	                COUNT(DISTINCT a.id) AS activities_organized,
+	                COUNT(DISTINCT
+	                    CASE
+	                        WHEN a.is_cancelled = 0 THEN a.id
+	                        ELSE NULL
+                        END
+                    ) AS activities_happened,
+                    COUNT(DISTINCT a.klupper_id) AS organizer_count,
+                    COUNT(DISTINCT
+                        CASE
+                            WHEN a.is_cancelled = 0 THEN a.klupper_id
+                            ELSE NULL
+                        END
+                    ) AS active_organizer_count,
+                    COUNT(DISTINCT ap.klupper_id) AS attendees,
+                    COUNT(DISTINCT
+                        CASE
+                            WHEN a.is_cancelled = 0 THEN ap.klupper_id
+                            ELSE NULL
+                        END
+                    ) AS active_attendees
 
-	FROM
-					klup_tmation.activity a
+    FROM            klup_tmation.activity a
 
 	LEFT JOIN 		klup_tmation.activity_participant ap
-	ON				a.id = ap.activity_id
+	ON              a.id = ap.activity_id
 
-	WHERE 			1=1
-	AND				a.datetime_start BETWEEN '{START_DATE}' AND '{END_DATE}'
+	WHERE           1=1
+	AND             a.datetime_start BETWEEN '{START_DATE}' AND '{END_DATE}'
 
 	GROUP BY 1
 )
