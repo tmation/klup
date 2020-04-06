@@ -12,6 +12,7 @@ from submodules.appfigures_py import appfigures_py
 
 from datetime import datetime, timedelta
 import mysql.connector
+import pygsheets
 
 af = appfigures_py.AppFigures(
     config.AF_CLIENT_ID,
