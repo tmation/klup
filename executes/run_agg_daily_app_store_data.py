@@ -23,8 +23,8 @@ def cronjob():
     end = (datetime.datetime.now() - datetime.timedelta(days=0))
     date_generated = [start + datetime.timedelta(days=x) for x in range(0, (end-start).days)]
 
-    print('Start Date: '.format(start.strftime('%Y-%m-%d')))
-    print('End Date: '.format(end.strftime('%Y-%m-%d')))
+    print('Start Date: {}'.format(start.strftime('%Y-%m-%d')))
+    print('End Date: {}'.format(end.strftime('%Y-%m-%d')))
 
     date_list = []
     for date in date_generated:

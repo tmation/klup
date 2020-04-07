@@ -12,7 +12,7 @@ SELECT
 
 				CURRENT_TIMESTAMP AS _loaded_at
 
-FROM            friendship f
+FROM            {db_name}.friendship f
 
 WHERE           f.status = 'NORMAL'
 

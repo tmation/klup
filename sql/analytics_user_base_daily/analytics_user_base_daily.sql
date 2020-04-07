@@ -14,4 +14,4 @@ SELECT
 
                 CURRENT_TIMESTAMP AS _loaded_at
 
-FROM            klup_tmation.klupper
+FROM            {db_name}.klupper

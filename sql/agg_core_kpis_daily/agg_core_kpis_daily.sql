@@ -12,7 +12,7 @@ dates AS (
 	                dd.datestr,
 	                dd.date
 
-	FROM            klup_tmation.dim_date dd
+	FROM            {db_name}.dim_date dd
 
 	WHERE           1=1
 	AND             dd.date BETWEEN '{START_DATE}' AND '{END_DATE}'
@@ -20,7 +20,7 @@ dates AS (
 
 , activities AS (
 	SELECT
-	                klup_tmation.DATE_TRUNC('{TIME_INTERVAL}', a.datetime_start) AS day,
+	                {db_name}.DATE_TRUNC('{TIME_INTERVAL}', a.datetime_start) AS day,
 	                COUNT(DISTINCT a.id) AS activities_organized,
 	                COUNT(DISTINCT
 	                    CASE
@@ -43,8 +43,8 @@ dates AS (
                         END
                     ) AS active_attendees
 
-    FROM            klup_tmation.activity a
-    LEFT JOIN 		klup_tmation.activity_participant ap
+    FROM            {db_name}.activity a
+    LEFT JOIN 		{db_name}.activity_participant ap
 	ON              a.id = ap.activity_id
 
 	WHERE           1=1
@@ -60,7 +60,7 @@ dates AS (
 
     FROM			dates d
 
-    LEFT JOIN		klup_tmation.friendship f
+    LEFT JOIN		{db_name}.friendship f
     ON				DATE(f.create_date) = d.datestr
 
     GROUP BY		1
@@ -68,13 +68,13 @@ dates AS (
 
 , app_downloads AS (
 	SELECT DISTINCT
-					klup_tmation.DATE_TRUNC('{TIME_INTERVAL}', adad.day) AS day,
+					{db_name}.DATE_TRUNC('{TIME_INTERVAL}', adad.day) AS day,
                     SUM(CASE WHEN adad.store = 'google_play' THEN adad.downloads ELSE 0 END) AS downloads_google,
                     SUM(CASE WHEN adad.store = 'apple' THEN adad.downloads ELSE 0 END) AS downloads_apple,
                     SUM(CASE WHEN adad.store = 'google_play' THEN adad.revenue ELSE 0 END) AS revenue_google,
                     SUM(CASE WHEN adad.store = 'apple' THEN adad.revenue ELSE 0 END) AS revenue_apple
 
-    FROM			klup_tmation.agg_daily_app_store_data adad
+    FROM			{db_name}.agg_daily_app_store_data adad
 
 	WHERE			1=1
     AND				day BETWEEN '{START_DATE}' AND '{END_DATE}'
@@ -84,12 +84,12 @@ dates AS (
 
 , revenues AS (
 	SELECT DISTINCT
-					klup_tmation.DATE_TRUNC('{TIME_INTERVAL}', o.create_date) AS day,
+					{db_name}.DATE_TRUNC('{TIME_INTERVAL}', o.create_date) AS day,
 					COUNT(DISTINCT o.klupper_id) AS paying_users,
 					SUM(s.amount) AS revenue
 
-	FROM			klup_tmation.ORDER o
-	LEFT JOIN		klup_tmation.subscription s
+	FROM			{db_name}.ORDER o
+	LEFT JOIN		{db_name}.subscription s
 	ON				s.id = o.subscription_id
 
 	WHERE 			1=1
@@ -100,12 +100,12 @@ dates AS (
 
 , paying_users AS (
 	SELECT
-					klup_tmation.DATE_TRUNC('{TIME_INTERVAL}', d.date) AS date,
+					{db_name}.DATE_TRUNC('{TIME_INTERVAL}', d.date) AS date,
                     COUNT(DISTINCT m.klupper_id) AS paying_users
 
 	FROM 			dates d
 
-    LEFT JOIN 		membership m
+    LEFT JOIN 		{db_name}.membership m
     ON				DATE(d.datestr) >= DATE(m.begin_date)
     AND				DATE(d.datestr) < DATE(m.end_date)
     AND 			m.type = 'PAID'
@@ -130,12 +130,12 @@ dates AS (
 					END) AS had_paid_membership,
                     MAX(m.end_date) AS last_membership_end_date
 
-	FROM			klup_tmation.klupper k
+	FROM			{db_name}.klupper k
 
-	LEFT JOIN 		klup_tmation.membership m
+	LEFT JOIN 		{db_name}.membership m
 	ON				m.klupper_id = k.id
 
-    LEFT JOIN 		analytics_active_klupper_details aakd
+    LEFT JOIN 		{db_name}.analytics_active_klupper_details aakd
     ON				aakd.id = k.id
 
 	WHERE			1=1
@@ -145,7 +145,7 @@ dates AS (
 
 , basic_trial_users AS (
 	SELECT DISTINCT
-					klup_tmation.DATE_TRUNC('{TIME_INTERVAL}', d.datestr) AS day,
+					{db_name}.DATE_TRUNC('{TIME_INTERVAL}', d.datestr) AS day,
 					COUNT(DISTINCT kf_trial.klupper_id) AS trial_users,
 					COUNT(DISTINCT kf_basic.klupper_id) AS basic_users
 
@@ -155,7 +155,7 @@ dates AS (
 	ON				kf_trial.had_paid_membership = 0
 	AND				DATE(kf_trial.registration_date) <= DATE(d.datestr)
 	AND				DATE(kf_trial.first_event_date) > DATE(d.datestr)
-    AND				DATE(kf_trial.third_friend_request_date) > DATE(d.datestr)
+    AND				(DATE(kf_trial.third_friend_request_date) > DATE(d.datestr) OR kf_trial.third_friend_request_date IS NULL)
 
 	LEFT JOIN 		klupper_frame kf_basic
 	ON				(
@@ -176,10 +176,10 @@ dates AS (
 
 , klupper_first_activity AS (
     SELECT DISTINCT
-                    klup_tmation.DATE_TRUNC('{TIME_INTERVAL}', DATE(aakd.first_activity_date)) AS datestr,
+                    {db_name}.DATE_TRUNC('{TIME_INTERVAL}', DATE(aakd.first_activity_date)) AS datestr,
                     COUNT(DISTINCT aakd.id) AS first_activity_users
 
-    FROM            analytics_active_klupper_details aakd
+    FROM            {db_name}.analytics_active_klupper_details aakd
 
     WHERE           aakd.first_activity_date BETWEEN '{START_DATE}' AND '{END_DATE}'
 
@@ -188,10 +188,10 @@ dates AS (
 
 , klupper_sign_ups AS (
 	SELECT DISTINCT
-					klup_tmation.DATE_TRUNC('{TIME_INTERVAL}', DATE(k.registration_date)) AS datestr,
+					{db_name}.DATE_TRUNC('{TIME_INTERVAL}', DATE(k.registration_date)) AS datestr,
 					COUNT(DISTINCT k.id) AS daily_signups
 
-	FROM			klupper k
+	FROM			{db_name}.klupper k
 
 	WHERE			k.registration_date BETWEEN '{START_DATE}' AND '{END_DATE}'
 
@@ -199,7 +199,7 @@ dates AS (
 )
 
 SELECT
-				DATE(klup_tmation.DATE_TRUNC('{TIME_INTERVAL}', d.datestr)),
+				DATE({db_name}.DATE_TRUNC('{TIME_INTERVAL}', d.datestr)),
 
                 -- Activities
                 a.activities_organized AS activities_organized,

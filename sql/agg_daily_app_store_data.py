@@ -1,5 +1,5 @@
 ddl = """
-CREATE TABLE IF NOT EXISTS klup_tmation.agg_daily_app_store_data (
+CREATE TABLE IF NOT EXISTS klup_production.agg_daily_app_store_data (
 	day varchar(10),
 	store varchar(12),
 	storefront varchar(12),
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS klup_tmation.agg_daily_app_store_data (
 """
 
 replace = """
-REPLACE INTO `klup_tmation`.`agg_daily_app_store_data` VALUES (
+REPLACE INTO `klup_production`.`agg_daily_app_store_data` VALUES (
     %(day)s,
     %(store)s,
     %(storefront)s,

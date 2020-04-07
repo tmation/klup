@@ -13,12 +13,12 @@ klupper_first_event_prep AS (
                     COALESCE(a.datetime_end, a.datetime_start) AS event_date,
                     ROW_NUMBER() OVER (PARTITION BY k.id ORDER BY COALESCE(a.datetime_end, a.datetime_start) ASC) AS activity_rank
 
-	FROM            klupper k
+	FROM            {db_name}.klupper k
 
-	LEFT JOIN       activity_participant ap
+	LEFT JOIN       {db_name}.activity_participant ap
 	ON              k.id = ap.klupper_id
 
-	LEFT JOIN       activity a
+	LEFT JOIN       {db_name}.activity a
 	ON              ap.activity_id = a.id
 
 	WHERE           1=1
@@ -32,7 +32,7 @@ klupper_first_event_prep AS (
                     create_date AS friend_request_create_date,
                     ROW_NUMBER() OVER (PARTITION BY sender_id ORDER BY create_date ASC) AS friend_request_rank
 
-	FROM            friendship f
+	FROM            {db_name}.friendship f
 )
 
 SELECT DISTINCT
@@ -47,7 +47,7 @@ SELECT DISTINCT
                 CURRENT_TIMESTAMP AS _loaded_at
 
 
-FROM            klupper k
+FROM            {db_name}.klupper k
 
 LEFT JOIN       klupper_first_event_prep kfep1
 ON              kfep1.klupper_id = k.id
