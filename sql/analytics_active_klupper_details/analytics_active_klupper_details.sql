@@ -1,5 +1,7 @@
 REPLACE INTO `{db_name}`.`{table_name}`
 
+--TODO Make first activity date and friend request count more flexible
+
 WITH
 
 klupper_first_event_prep AS (
