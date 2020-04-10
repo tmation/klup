@@ -17,6 +17,7 @@ users_paid INTEGER,
 active_paying_users INTEGER,
 trial_users INTEGER,
 basic_users INTEGER,
+--TODO Add earned users
 referrals INTEGER,
 daily_active_users INTEGER,
 daily_signups INTEGER,

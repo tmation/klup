@@ -53,6 +53,7 @@ dates AS (
 	GROUP BY 		1
 )
 
+--TODO Replace this with analytics_friendships_daily
 , friendships AS (
 	SELECT
 					klup_tmation.DATE_TRUNC('{TIME_INTERVAL}', d.datestr) AS day,
@@ -210,6 +211,7 @@ SELECT
                 a.active_attendees AS active_attendees,
 
                 -- Friendships
+                --TODO Replace this with analytics_friendships_daily
                 f.friendships_created AS friendships_created,
 
                 -- App Downloads
@@ -223,9 +225,11 @@ SELECT
 
                 -- Users
                 r.paying_users AS users_paid,
+                --TODO Replace with analytics_klupper_user_type_daily
                 pu.paying_users AS active_paying_users,
                 btu.trial_users AS trial_users,
                 btu.basic_users AS basic_users,
+                --TODO Add Earned Users
                 0 AS referrals,
                 0 AS daily_active_users,
                 ksu.daily_signups AS daily_signups,
@@ -250,6 +254,7 @@ FROM			dates d
 LEFT JOIN 		activities a
 ON 				DATE(a.day) = DATE(d.datestr)
 
+--TODO Replace this with analytics_friendships_daily
 LEFT JOIN		friendships f
 ON				DATE(f.day) = DATE(d.datestr)
 
@@ -262,6 +267,7 @@ ON				DATE(r.day) = DATE(d.datestr)
 LEFT JOIN 		paying_users pu
 ON				DATE(pu.date) = DATE(d.datestr)
 
+--TODO Replace with analytics_klupper_user_type_daily
 LEFT JOIN		basic_trial_users btu
 ON				DATE(btu.day) = DATE(d.datestr)
 
