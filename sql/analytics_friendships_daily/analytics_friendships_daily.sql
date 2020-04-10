@@ -1,4 +1,4 @@
---REPLACE INTO `{db_name}`.`{table_name}`
+REPLACE INTO `{db_name}`.`{table_name}`
 
 SELECT
                 CURRENT_DATE AS datestr,
