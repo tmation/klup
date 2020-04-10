@@ -1,4 +1,4 @@
-REPLACE INTO `klup_tmation`.`{table_name}`
+REPLACE INTO `{db_name}`.`{table_name}`
 
 WITH
 
@@ -29,11 +29,39 @@ dates AS (
                     
                     CASE 
 						WHEN 
-							m.begin_date <= d.datestr AND 
+							m.type = 'PAID' AND
+							m.begin_date <= d.datestr AND
 							m.end_date >= d.datestr 
 							THEN TRUE
 						ELSE FALSE
 					END AS is_paid_member,
+
+					CASE
+						WHEN
+							m.type = 'ADMIN' AND
+							m.begin_date <= d.datestr AND
+							m.end_date >= d.datestr
+							THEN TRUE
+						ELSE FALSE
+					END AS is_admin_member,
+
+					CASE
+						WHEN
+							m.type = 'SHARE' AND
+							m.begin_date <= d.datestr AND
+							m.end_date >= d.datestr
+							THEN TRUE
+						ELSE FALSE
+					END AS is_share_member,
+
+					CASE
+						WHEN
+							m.type = 'ORGANIZER' AND
+							m.begin_date <= d.datestr AND
+							m.end_date >= d.datestr
+							THEN TRUE
+						ELSE FALSE
+					END AS is_organizer_member,
                     
                     CASE
 						WHEN DATE(d.datestr) - INTERVAL '180' DAY >= k.last_active_date THEN TRUE
@@ -47,7 +75,6 @@ dates AS (
 
 	LEFT JOIN		membership m 
 	ON				m.klupper_id = k.id
-	AND				m.type = 'PAID'
 
 	LEFT JOIN		analytics_active_klupper_details aakd
 	ON				aakd.id = k.id
@@ -59,12 +86,19 @@ dates AS (
 					kf.id,
 					kf.is_dormant_member,
 					kf.is_paid_member,
+					kf.is_admin_member,
+					kf.is_share_member,
+					kf.is_organizer_member,
 
 					CASE
 						WHEN
 							1=1
 							AND kf.is_paid_member = FALSE
 							AND kf.is_dormant_member = FALSE
+							AND kf.is_admin_member = FALSE
+							AND kf.is_share_member = FALSE
+							AND kf.is_organizer_member = FALSE
+
 							AND DATE(kf.registration_date) <= DATE(kf.datestr)
 							AND (
 								(DATE(kf.first_event_date) >= DATE(kf.datestr) OR kf.first_event_date IS NULL)
@@ -79,6 +113,12 @@ dates AS (
 							1=1
 							AND kf.is_paid_member = FALSE
 							AND kf.is_dormant_member = FALSE
+							AND kf.is_paid_member = FALSE
+							AND kf.is_dormant_member = FALSE
+							AND kf.is_admin_member = FALSE
+							AND kf.is_share_member = FALSE
+							AND kf.is_organizer_member = FALSE
+
 							AND DATE(kf.registration_date) <= DATE(kf.datestr)
 							AND DATE(kf.first_event_date) < DATE(kf.datestr)
 							AND DATE(kf.third_friend_request_date) < DATE(kf.datestr)
@@ -101,4 +141,25 @@ dates AS (
 	WHERE			DATE(kf.registration_date) <= DATE(kf.datestr)
 )
 
-SELECT * FROM final 
+SELECT
+				f.datestr,
+				f.id,
+				f.is_dormant_member,
+				f.is_paid_member,
+				f.is_admin_member,
+				f.is_share_member,
+				f.is_organizer_member,
+
+--				TODO: Set the correct release date
+--				This section puts trial members as basic members before the release date of the new app
+				CASE
+					WHEN DATE(f.datestr) < '2020-04-20' THEN FALSE
+					ELSE f.is_trial_member
+				END AS is_trial_member,
+				CASE
+					WHEN DATE(f.datestr) < '2020-04-20' AND f.is_trial_member IS TRUE THEN TRUE
+					ELSE f.is_basic_member
+				END AS is_basic_member,
+				f._loaded_at
+
+FROM 			final f
