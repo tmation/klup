@@ -51,6 +51,6 @@ conn.close()
 print('Ending job {}'.format('daily_app_store_data'))
 
 # KPI TABLES
-run_pipeline(table_name='agg_core_kpis_daily',query_params={'START_DATE':'2020-01-01','END_DATE':'2020-04-06','TIME_INTERVAL':'DAY'})
+run_pipeline(table_name='agg_core_kpis_daily',query_params={'START_DATE':'2020-04-07','END_DATE':'2020-04-08','TIME_INTERVAL':'DAY'})
 run_pipeline(table_name='agg_core_kpis_weekly',query_params={'START_DATE':'2020-01-01','END_DATE':'2020-04-06','TIME_INTERVAL':'WEEK'})
 run_pipeline(table_name='agg_core_kpis_monthly',query_params={'START_DATE':'2020-01-01','END_DATE':'2020-04-06','TIME_INTERVAL':'MONTH'})
