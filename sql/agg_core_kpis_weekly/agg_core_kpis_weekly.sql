@@ -24,21 +24,21 @@ dates AS (
 	                COUNT(DISTINCT a.id) AS activities_organized,
 	                COUNT(DISTINCT
 	                    CASE
-	                        WHEN a.is_cancelled = 0 THEN a.id
+	                        WHEN a.is_cancelled = 0 AND a.status != 'DELETED' THEN a.id
 	                        ELSE NULL
                         END
                     ) AS activities_happened,
                     COUNT(DISTINCT a.klupper_id) AS organizer_count,
                     COUNT(DISTINCT
                         CASE
-                            WHEN a.is_cancelled = 0 THEN a.klupper_id
+                            WHEN a.is_cancelled = 0 AND a.status != 'DELETED' THEN a.klupper_id
                             ELSE NULL
                         END
                     ) AS active_organizer_count,
                     COUNT(DISTINCT ap.klupper_id) AS attendees,
                     COUNT(DISTINCT
                         CASE
-                            WHEN a.is_cancelled = 0 THEN ap.klupper_id
+                            WHEN a.is_cancelled = 0 AND a.status != 'DELETED' THEN ap.klupper_id
                             ELSE NULL
                         END
                     ) AS active_attendees
