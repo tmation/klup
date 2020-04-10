@@ -15,5 +15,6 @@ venv/*
 .idea/*
 .vscode/*
 archive/*.env
+playgrounds/*
 QUOTAGUARD-LICENSE.txt
 
