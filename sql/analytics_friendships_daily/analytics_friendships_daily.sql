@@ -1,4 +1,4 @@
-REPLACE INTO `{db_name}`.`{table_name}`
+--REPLACE INTO `{db_name}`.`{table_name}`
 
 SELECT
                 CURRENT_DATE AS datestr,
@@ -14,6 +14,8 @@ SELECT
 
 FROM            {db_name}.friendship f
 
-WHERE           f.status = 'NORMAL'
+WHERE			1=1
+AND				f.status = 'NORMAL'
+AND 			f.reply_status = 'ACCEPTED'
 
 GROUP BY        1
