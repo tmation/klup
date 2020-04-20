@@ -4,4 +4,4 @@
 
 [submodule "submodules/appfigures_py"]
 	path = submodules/appfigures_py
-	url = git@github.com:tmation/appfigures_py.git
+	url = https://github.com/tmation/appfigures_py.git
