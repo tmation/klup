@@ -4,10 +4,11 @@ playground2.py
 scrip_db.py
 sql_executer.py
 test.csv
-constants.py
 creds.py
 *.pyc
 .env
+
+sql/agg_core_kpis_daily/NEW_QUERY_TEST.sql
 
 _secrets/*
 __pycache__/*

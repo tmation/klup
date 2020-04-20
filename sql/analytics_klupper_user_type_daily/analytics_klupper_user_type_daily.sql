@@ -150,14 +150,13 @@ SELECT
 				f.is_share_member,
 				f.is_organizer_member,
 
---				TODO: Set the correct release date
 --				This section puts trial members as basic members before the release date of the new app
 				CASE
-					WHEN DATE(f.datestr) < '2020-04-20' THEN FALSE
+					WHEN DATE(f.datestr) < '2020-04-17' THEN FALSE
 					ELSE f.is_trial_member
 				END AS is_trial_member,
 				CASE
-					WHEN DATE(f.datestr) < '2020-04-20' AND f.is_trial_member IS TRUE THEN TRUE
+					WHEN DATE(f.datestr) < '2020-04-17' AND f.is_trial_member IS TRUE THEN TRUE
 					ELSE f.is_basic_member
 				END AS is_basic_member,
 				f._loaded_at

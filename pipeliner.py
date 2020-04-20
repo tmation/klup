@@ -12,6 +12,8 @@ def run_pipeline(table_name, db_name=None, pipeline_id=None, query_params={}):
         pipeline_id = table_name
 
     print('{}: Starting job {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), pipeline_id))
+    if query_params:
+        print('Query Parameters: {}'.format(query_params))
 
     conn = mysql.connector.connect(
         user=config.DB_KLUP_USER,

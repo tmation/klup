@@ -23,10 +23,10 @@ af = appfigures_py.AppFigures(
 )
 
 conn = mysql.connector.connect(
-	user=config.DB_KLUP_USER,
-	password=config.DB_KLUP_PASSWORD,
-	host=config.DB_KLUP_HOST,
-	database=config.DB_KLUP_NAME
+    user=config.DB_KLUP_USER,
+    password=config.DB_KLUP_PASSWORD,
+    host=config.DB_KLUP_HOST,
+    database=config.DB_KLUP_NAME
 )
 
 pyg = pygsheets.authorize(service_account_env_var='GOOGLE_SVC_TMATION')

@@ -53,20 +53,6 @@ dates AS (
 	GROUP BY 		1
 )
 
---TODO Replace this with analytics_friendships_daily
-, friendships AS (
-	SELECT
-					klup_tmation.DATE_TRUNC('{TIME_INTERVAL}', d.datestr) AS day,
-                    COUNT(DISTINCT f.id) AS friendships_created
-
-    FROM			dates d
-
-    LEFT JOIN		{db_name}.friendship f
-    ON				DATE(f.create_date) = d.datestr
-
-    GROUP BY		1
-)
-
 , app_downloads AS (
 	SELECT DISTINCT
 					{db_name}.DATE_TRUNC('{TIME_INTERVAL}', adad.day) AS day,
@@ -144,33 +130,36 @@ dates AS (
 	GROUP BY 		1,2,3,4
 )
 
-, basic_trial_users AS (
+, user_type_counts AS (
 	SELECT DISTINCT
-					{db_name}.DATE_TRUNC('{TIME_INTERVAL}', d.datestr) AS day,
-					COUNT(DISTINCT kf_trial.klupper_id) AS trial_users,
-					COUNT(DISTINCT kf_basic.klupper_id) AS basic_users
+					{db_name}.DATE_TRUNC('{TIME_INTERVAL}', akutd.datestr) AS day,
+					COUNT(DISTINCT CASE
+						WHEN akutd.is_trial_member = TRUE THEN akutd.id
+						ELSE NULL
+					END) AS trial_users,
 
-	FROM			dates d
+					COUNT(DISTINCT CASE
+						WHEN akutd.is_basic_member = TRUE THEN akutd.id
+						ELSE NULL
+					END) AS basic_users,
 
-	LEFT JOIN 		klupper_frame kf_trial
-	ON				kf_trial.had_paid_membership = 0
-	AND				DATE(kf_trial.registration_date) <= DATE(d.datestr)
-	AND				DATE(kf_trial.first_event_date) > DATE(d.datestr)
-    AND				(DATE(kf_trial.third_friend_request_date) > DATE(d.datestr) OR kf_trial.third_friend_request_date IS NULL)
+					COUNT(DISTINCT CASE
+						WHEN akutd.is_paid_member = TRUE THEN akutd.id
+						ELSE NULL
+					END) AS paid_users,
 
-	LEFT JOIN 		klupper_frame kf_basic
-	ON				(
-					kf_basic.had_paid_membership = 0
-					AND	DATE(kf_basic.registration_date) >= DATE(d.datestr)
-					AND	DATE(kf_basic.first_event_date) >= DATE(d.datestr)
-                    AND DATE(kf_basic.third_friend_request_date) >= DATE(d.datestr)
-					)
-	OR 				(
-					kf_basic.last_membership_end_date < d.datestr
-					AND	DATE(kf_basic.registration_date) >= DATE(d.datestr)
-					AND	DATE(kf_basic.first_event_date) >= DATE(d.datestr)
-                    AND DATE(kf_basic.third_friend_request_date) >= DATE(d.datestr)
-					)
+					COUNT(DISTINCT CASE
+						WHEN akutd.is_admin_member = TRUE
+							OR akutd.is_share_member = TRUE
+							OR akutd.is_organizer_member = TRUE
+							THEN akutd.id
+						ELSE NULL
+					END) AS earned_users
+
+	FROM			analytics_klupper_user_type_daily akutd
+
+	WHERE			1=1
+	AND				DATE(akutd.datestr) BETWEEN '{START_DATE}' AND '{END_DATE}'
 
 	GROUP BY		1
 )
@@ -211,8 +200,10 @@ SELECT
                 a.active_attendees AS active_attendees,
 
                 -- Friendships
-                --TODO Replace this with analytics_friendships_daily
-                f.friendships_created AS friendships_created,
+                afd.friendships_active AS friendships_active,
+                afd.friendships_created AS friendships_created,
+                afd.friendships_created_7d AS friendships_created_7d,
+                afd.friendships_created_cur_month AS friendships_created_cur_month,
 
                 -- App Downloads
                 ad.downloads_google,
@@ -225,11 +216,10 @@ SELECT
 
                 -- Users
                 r.paying_users AS users_paid,
-                --TODO Replace with analytics_klupper_user_type_daily
                 pu.paying_users AS active_paying_users,
-                btu.trial_users AS trial_users,
-                btu.basic_users AS basic_users,
-                --TODO Add Earned Users
+                utc.trial_users AS trial_users,
+                utc.basic_users AS basic_users,
+                utc.earned_users AS earned_users,
                 0 AS referrals,
                 0 AS daily_active_users,
                 ksu.daily_signups AS daily_signups,
@@ -254,9 +244,8 @@ FROM			dates d
 LEFT JOIN 		activities a
 ON 				DATE(a.day) = DATE(d.datestr)
 
---TODO Replace this with analytics_friendships_daily
-LEFT JOIN		friendships f
-ON				DATE(f.day) = DATE(d.datestr)
+LEFT JOIN		analytics_friendships_daily afd
+ON				DATE(afd.datestr) = DATE(d.datestr)
 
 LEFT JOIN 		app_downloads ad
 ON				DATE(ad.day) = DATE(d.datestr)
@@ -267,9 +256,8 @@ ON				DATE(r.day) = DATE(d.datestr)
 LEFT JOIN 		paying_users pu
 ON				DATE(pu.date) = DATE(d.datestr)
 
---TODO Replace with analytics_klupper_user_type_daily
-LEFT JOIN		basic_trial_users btu
-ON				DATE(btu.day) = DATE(d.datestr)
+LEFT JOIN 		user_type_counts utc
+ON				DATE(utc.day) = DATE(d.datestr)
 
 LEFT JOIN 		analytics_user_base_daily aubd
 ON				DATE(aubd.datestr) = DATE(d.datestr)

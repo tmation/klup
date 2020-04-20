@@ -1,6 +1,6 @@
-REPLACE INTO `{db_name}`.`{table_name}`
+-- TODO Make first activity date and friend request count more flexible
 
---TODO Make first activity date and friend request count more flexible
+REPLACE INTO `{db_name}`.`{table_name}`
 
 WITH
 
