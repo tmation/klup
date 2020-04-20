@@ -2,3 +2,6 @@
 	path = submodules/gcloud_storage_py
 	url = https://github.com/tmation/gcloud_storage_py.git
 
+[submodule "submodules/appfigures_py"]
+	path = submodules/appfigures_py
+	url = git@github.com:tmation/appfigures_py.git
