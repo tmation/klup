@@ -18,13 +18,21 @@ conn = mysql.connector.connect(
     database=config.DB_KLUP_NAME
 )
 
-start = (datetime.datetime.now() - datetime.timedelta(days=1))
+start = (datetime.datetime.now() - datetime.timedelta(days=1000))
 end = (datetime.datetime.now() - datetime.timedelta(days=0))
-
 date_generated = [start + datetime.timedelta(days=x) for x in range(0, (end-start).days)]
 
-print('Start Date: {}'.format(start.strftime('%Y-%m-%d')))
-print('End Date: {}'.format(end.strftime('%Y-%m-%d')))
+sdate = datetime.date(2020, 3, 12)
+edate = datetime.date(2020, 5, 1)
+delta = edate - sdate
+
+date_generated = []
+for i in range(delta.days + 1):
+    day = sdate + datetime.timedelta(days=i)
+    date_generated.append(day)
+
+print('Start Date: {}'.format(min(date_generated).strftime('%Y-%m-%d')))
+print('End Date: {}'.format(max(date_generated).strftime('%Y-%m-%d')))
 
 date_list = []
 for date in date_generated:

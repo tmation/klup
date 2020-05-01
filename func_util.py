@@ -60,14 +60,14 @@ def convert_keys_to_string(dictionary):
 	            for k, v in dictionary.items())
 
 
-def get_store_reports_per_day(start_date):
-	end_date = (datetime.strptime(start_date, '%Y-%m-%d') + timedelta(days=1)).strftime('%Y-%m-%d')
-	report = af.get_downloads(start_date, end_date)
+def get_store_reports_per_day(date):
+
+	report = af.get_downloads(date, date)
 
 	store_report_list = []
 	for store in report.keys():
 		store_report = report[store]
-		store_report.update({'day': start_date})
+		store_report.update({'day': date})
 
 		for k, v in store_report.items():
 			try:

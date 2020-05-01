@@ -42,7 +42,7 @@ SELECT DISTINCT
 				
 FROM            {table_name}
 
-WHERE           DATE(datestr) >= '2020-01-01'
+WHERE           DATE(datestr) >= '{start_date}'
 
 ORDER BY        1
 

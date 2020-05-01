@@ -5,63 +5,63 @@ SELECT
                 COUNT(DISTINCT f.id) AS friendships_active,
                 COUNT(DISTINCT
 					CASE
-						WHEN DATE(f.create_date) = DATE('{DATE}') THEN id
+						WHEN DATE(f.update_date) = DATE('{DATE}') THEN id
                         ELSE NULL
 					END
 				) AS friendships_created,
 
 				COUNT(DISTINCT
 					CASE
-						WHEN DATE(f.create_date) >= DATE('{DATE}') - INTERVAL 1 DAY THEN id
+						WHEN DATE(f.update_date) BETWEEN DATE('{DATE}') - INTERVAL 1 DAY AND DATE('{DATE}') THEN id
                         ELSE NULL
 					END
 				) AS friendships_created_1d,
 
 				COUNT(DISTINCT
 					CASE
-						WHEN DATE(f.create_date) >= DATE('{DATE}') - INTERVAL 7 DAY THEN id
+						WHEN DATE(f.update_date) BETWEEN DATE('{DATE}') - INTERVAL 7 DAY AND DATE('{DATE}') THEN id
                         ELSE NULL
 					END
 				) AS friendships_created_7d,
 
 				COUNT(DISTINCT
 					CASE
-						WHEN DATE(f.create_date) >= DATE('{DATE}') - INTERVAL 14 DAY THEN id
+						WHEN DATE(f.update_date) BETWEEN DATE('{DATE}') - INTERVAL 14 DAY AND DATE('{DATE}') THEN id
                         ELSE NULL
 					END
 				) AS friendships_created_14d,
 
 				COUNT(DISTINCT
 					CASE
-						WHEN DATE(f.create_date) >= DATE('{DATE}') - INTERVAL 30 DAY THEN id
+						WHEN DATE(f.update_date) BETWEEN DATE('{DATE}') - INTERVAL 30 DAY AND DATE('{DATE}') THEN id
                         ELSE NULL
 					END
 				) AS friendships_created_30d,
 
 				COUNT(DISTINCT
 					CASE
-						WHEN DATE(f.create_date) >= DATE('{DATE}') - INTERVAL 60 DAY THEN id
+						WHEN DATE(f.update_date) BETWEEN DATE('{DATE}') - INTERVAL 60 DAY AND DATE('{DATE}') THEN id
                         ELSE NULL
 					END
 				) AS friendships_created_60d,
 
 				COUNT(DISTINCT
 					CASE
-						WHEN DATE(f.create_date) >= DATE('{DATE}') - INTERVAL 90 DAY THEN id
+						WHEN DATE(f.update_date) BETWEEN DATE('{DATE}') - INTERVAL 90 DAY AND DATE('{DATE}') THEN id
                         ELSE NULL
 					END
 				) AS friendships_created_90d,
 
 				COUNT(DISTINCT
 					CASE
-						WHEN DATE(f.create_date) >= DATE('{DATE}') - INTERVAL 180 DAY THEN id
+						WHEN DATE(f.update_date) BETWEEN DATE('{DATE}') - INTERVAL 180 DAY AND DATE('{DATE}') THEN id
                         ELSE NULL
 					END
 				) AS friendships_created_180d,
 
 				COUNT(DISTINCT
 					CASE
-						WHEN DATE(f.create_date) >= DATE_TRUNC('month', DATE('{DATE}')) THEN id
+						WHEN DATE_TRUNC('month', DATE(f.update_date)) = DATE_TRUNC('month', DATE('{DATE}')) THEN id
                         ELSE NULL
 					END
 				) AS friendships_created_cur_month,
