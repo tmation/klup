@@ -14,7 +14,7 @@ DASH_JOB_CONFIGS = {
 	'monthly': {
 		'table_name': 'agg_core_kpis_monthly',
 		'worksheet_name': 'data_monthly',
-		'start_date': '2020-07-01'
+		'start_date': '2017-07-01'
 	},
 	'testing': {
 		'table_name': 'agg_core_kpis_monthly',

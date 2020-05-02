@@ -19,6 +19,10 @@ def cronjob(report):
 	print('Ending job {}'.format(const.DASH_JOB_CONFIGS[report]['table_name']))
 
 
-cronjob('daily')
-cronjob('weekly')
-cronjob('monthly')
+# cronjob('daily')
+# cronjob('weekly')
+# cronjob('monthly')
+#
+# report = 'monthly'
+# sql = QUERY.format(table_name=const.DASH_JOB_CONFIGS[report]['table_name'],
+# 	                   start_date=const.DASH_JOB_CONFIGS[report]['start_date'])
