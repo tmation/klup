@@ -10,8 +10,8 @@ from tqdm import tqdm
 # end = (datetime.datetime.now() - datetime.timedelta(days=0))
 # date_generated = [start + datetime.timedelta(days=x) for x in range(0, (end-start).days)]
 
-sdate = datetime.date(2020, 1, 1)
-edate = datetime.date(2020, 5, 1)
+sdate = datetime.date(2020, 5, 1)
+edate = datetime.date(2020, 5, 7)
 delta = edate - sdate
 
 date_generated = []
