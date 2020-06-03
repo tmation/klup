@@ -79,19 +79,19 @@ def execute_analytics_friendships_daily():
 
 ### GSHEET JOBS
 # DATA_DAILY
-@sched.scheduled_job('cron', day_of_week='mon-sun', hour=6, id='data_daily')
+@sched.scheduled_job('cron', day_of_week='mon-sun', hour=6, minute=0, id='data_daily')
 def execute_data_daily():
 	run_dashboard_refresh.cronjob('daily')
 
 
 # DATA_WEEKLY
-@sched.scheduled_job('cron', day_of_week='mon', hour=6, id='data_weekly')
+@sched.scheduled_job('cron', day_of_week='mon', hour=6, minute=10, id='data_weekly')
 def execute_data_weekly():
 	run_dashboard_refresh.cronjob('weekly')
 
 
 # DATA_MONTHLY
-@sched.scheduled_job('cron', day='1', hour=6, id='data_monthly')
+@sched.scheduled_job('cron', day='1', hour=6, minute=20, id='data_monthly')
 def execute_data_monthly():
 	run_dashboard_refresh.cronjob('monthly')
 
