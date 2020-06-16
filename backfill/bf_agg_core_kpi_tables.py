@@ -27,7 +27,7 @@ run_pipeline(table_name='agg_core_kpis_daily', db_name='klup_production',query_p
 run_pipeline(table_name='agg_core_kpis_weekly', db_name='klup_production',query_params={'START_DATE':'2017-07-01','END_DATE':'2017-12-31','TIME_INTERVAL':'WEEK'})
 run_pipeline(table_name='agg_core_kpis_weekly', db_name='klup_production',query_params={'START_DATE':'2018-01-01','END_DATE':'2018-12-31','TIME_INTERVAL':'WEEK'})
 run_pipeline(table_name='agg_core_kpis_weekly', db_name='klup_production',query_params={'START_DATE':'2019-01-01','END_DATE':'2019-12-31','TIME_INTERVAL':'WEEK'})
-run_pipeline(table_name='agg_core_kpis_weekly', db_name='klup_production',query_params={'START_DATE':'2020-04-01','END_DATE':'2020-06-01','TIME_INTERVAL':'WEEK'})
+run_pipeline(table_name='agg_core_kpis_weekly', db_name='klup_production',query_params={'START_DATE':'2019-12-30','END_DATE':'2020-06-15','TIME_INTERVAL':'WEEK'})
 
 run_pipeline(table_name='agg_core_kpis_monthly', db_name='klup_production',query_params={'START_DATE':'2017-07-01','END_DATE':'2017-12-31','TIME_INTERVAL':'MONTH'})
 run_pipeline(table_name='agg_core_kpis_monthly', db_name='klup_production',query_params={'START_DATE':'2018-01-01','END_DATE':'2018-12-31','TIME_INTERVAL':'MONTH'})

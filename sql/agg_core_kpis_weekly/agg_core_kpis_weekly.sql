@@ -190,7 +190,7 @@ dates AS (
 
 , moments AS (
 	SELECT DISTINCT
-					{db_name}.DATE_TRUNC('{TIME_INTERVAL', DATE(m.create_date)) AS datestr,
+					{db_name}.DATE_TRUNC('{TIME_INTERVAL}', DATE(m.create_date)) AS datestr,
 					COUNT(DISTINCT m.id) AS moments_created
 
 	FROM			{db_name}.moment m
