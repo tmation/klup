@@ -37,6 +37,8 @@ SELECT DISTINCT
 				friendships_created_7d,
 				friendships_created_cur_month,
 				earned_users,
+				
+				moments_created,
 					
 				_loaded_at
 				
