@@ -37,5 +37,7 @@ active_cur_month INTEGER,
 
 _loaded_at DATETIME,
 
+moments_created INTEGER,
+
 PRIMARY KEY(datestr)
 )

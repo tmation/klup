@@ -188,6 +188,18 @@ dates AS (
 	GROUP BY 		1
 )
 
+, moments AS (
+	SELECT DISTINCT
+					{db_name}.DATE_TRUNC('{TIME_INTERVAL}', DATE(m.create_date)) AS datestr,
+					COUNT(DISTINCT m.id) AS moments_created
+
+	FROM			{db_name}.moment m
+
+	WHERE			m.create_date BETWEEN '{START_DATE}' AND '{END_DATE}'
+
+	GROUP BY 		1
+)
+
 SELECT
 				DATE({db_name}.DATE_TRUNC('{TIME_INTERVAL}', d.datestr)),
 
@@ -237,7 +249,9 @@ SELECT
                 aubd.active_180d,
                 aubd.active_cur_month,
 
-                CURRENT_TIMESTAMP AS _loaded_at
+                CURRENT_TIMESTAMP AS _loaded_at,
+
+                m.moments_created AS moments_created
 
 FROM			dates d
 
@@ -267,6 +281,9 @@ ON 			 	DATE(kfa.datestr) = DATE(d.datestr)
 
 LEFT JOIN		klupper_sign_ups ksu
 ON				DATE(ksu.datestr) = DATE(d.datestr)
+
+LEFT JOIN 		moments m
+ON				DATE(m.datestr) = DATE(d.datestr)
 
 GROUP BY 		1
 ;
