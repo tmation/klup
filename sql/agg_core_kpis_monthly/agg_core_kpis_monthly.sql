@@ -200,6 +200,30 @@ dates AS (
 	GROUP BY 		1
 )
 
+, first_membership_rank AS (
+	SELECT
+					*,
+					ROW_NUMBER() OVER (PARTITION BY m.klupper_id ORDER BY m.begin_date ASC) AS rn
+
+	FROM			{db_name}.membership m
+
+	WHERE 			m.type IN ('ADMIN','PAID')
+)
+
+, first_memberships AS (
+	SELECT
+					{db_name}.DATE_TRUNC('{TIME_INTERVAL}', fm.begin_date) AS datestr,
+					COUNT(DISTINCT fm.klupper_id) AS first_membership_count
+
+	FROM 			first_membership_rank fm
+
+	WHERE 			rn = 1
+	AND				fm.begin_date BETWEEN '{START_DATE}' AND '{END_DATE}'
+
+	GROUP BY 		1
+
+)
+
 SELECT
 				DATE({db_name}.DATE_TRUNC('{TIME_INTERVAL}', d.datestr)),
 
@@ -251,7 +275,8 @@ SELECT
 
                 CURRENT_TIMESTAMP AS _loaded_at,
 
-                m.moments_created AS moments_created
+                m.moments_created AS moments_created,
+                fm.first_membership_count AS first_membership_count
 
 FROM			dates d
 
@@ -284,6 +309,9 @@ ON				DATE(ksu.datestr) = DATE(d.datestr)
 
 LEFT JOIN 		moments m
 ON				DATE(m.datestr) = DATE(d.datestr)
+
+LEFT JOIN		first_memberships fm
+ON				DATE(fm.datestr) = DATE(d.datestr)
 
 GROUP BY 		1
 ;
