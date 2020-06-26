@@ -18,24 +18,41 @@ dates AS (
 	AND             dd.date BETWEEN '{START_DATE}' AND '{END_DATE}'
 )
 
-, activities AS (
+, activities_create_date AS (
+	SELECT
+					{db_name}.DATE_TRUNC('{TIME_INTERVAL}', a.create_date) AS day,
+					COUNT(DISTINCT a.id) AS activities_organized,
+					COUNT(DISTINCT a.klupper_id) AS organizer_count,
+					COUNT(DISTINCT ap.klupper_id) AS attendees
+
+	FROM            {db_name}.activity a
+	LEFT JOIN 		{db_name}.activity_participant ap
+	ON              a.id = ap.activity_id
+
+	WHERE           1=1
+	AND             a.create_date BETWEEN '{START_DATE}' AND '{END_DATE}'
+
+	GROUP BY 		1
+)
+
+, activities_start_date AS (
 	SELECT
 	                {db_name}.DATE_TRUNC('{TIME_INTERVAL}', a.datetime_start) AS day,
-	                COUNT(DISTINCT a.id) AS activities_organized,
+--	                COUNT(DISTINCT a.id) AS activities_organized,
 	                COUNT(DISTINCT
 	                    CASE
 	                        WHEN a.is_cancelled = 0 AND a.status != 'DELETED' THEN a.id
 	                        ELSE NULL
                         END
                     ) AS activities_happened,
-                    COUNT(DISTINCT a.klupper_id) AS organizer_count,
+--                    COUNT(DISTINCT a.klupper_id) AS organizer_count,
                     COUNT(DISTINCT
                         CASE
                             WHEN a.is_cancelled = 0 AND a.status != 'DELETED' THEN a.klupper_id
                             ELSE NULL
                         END
                     ) AS active_organizer_count,
-                    COUNT(DISTINCT ap.klupper_id) AS attendees,
+--                    COUNT(DISTINCT ap.klupper_id) AS attendees,
                     COUNT(DISTINCT
                         CASE
                             WHEN a.is_cancelled = 0 AND a.status != 'DELETED' THEN ap.klupper_id
@@ -228,12 +245,12 @@ SELECT
 				DATE({db_name}.DATE_TRUNC('{TIME_INTERVAL}', d.datestr)),
 
                 -- Activities
-                a.activities_organized AS activities_organized,
-                a.activities_happened AS activities_happened,
-                a.organizer_count AS organizer_count,
-                a.active_organizer_count AS active_organizer_count,
-                a.attendees AS attendees,
-                a.active_attendees AS active_attendees,
+                acd.activities_organized AS activities_organized,
+                asd.activities_happened AS activities_happened,
+                acd.organizer_count AS organizer_count,
+                asd.active_organizer_count AS active_organizer_count,
+                acd.attendees AS attendees,
+                asd.active_attendees AS active_attendees,
 
                 -- Friendships
                 afd.friendships_active AS friendships_active,
@@ -280,8 +297,11 @@ SELECT
 
 FROM			dates d
 
-LEFT JOIN 		activities a
-ON 				DATE(a.day) = DATE(d.datestr)
+LEFT JOIN 		activities_create_date acd
+ON 				DATE(acd.day) = DATE(d.datestr)
+
+LEFT JOIN 		activities_start_date asd
+ON 				DATE(asd.day) = DATE(d.datestr)
 
 LEFT JOIN		analytics_friendships_daily afd
 ON				DATE(afd.datestr) = DATE(d.datestr)

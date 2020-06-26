@@ -39,6 +39,7 @@ SELECT DISTINCT
 				earned_users,
 				
 				moments_created,
+				first_membership_count,
 					
 				_loaded_at
 				
