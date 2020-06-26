@@ -20,9 +20,9 @@ def cronjob(report):
 
 
 # cronjob('daily')
-# cronjob('weekly')
+cronjob('weekly')
 # cronjob('monthly')
-#
+
 # report = 'monthly'
 # sql = QUERY.format(table_name=const.DASH_JOB_CONFIGS[report]['table_name'],
 # 	                   start_date=const.DASH_JOB_CONFIGS[report]['start_date'])
