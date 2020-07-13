@@ -5,13 +5,18 @@ from pipeliner import run_pipeline
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 today = datetime.now().strftime('%Y-%m-%d')
 today_minus_3_day = (datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d')
 today_minus_7_day = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
 day_first_last_month = (datetime.today().replace(day=1, month=datetime.today().month - 1)).strftime('%Y-%m-%d')
-this_monday = (datetime.now() - timedelta(days=datetime.now().weekday())).strftime('%Y-%m-%d')
+
+if date.today().weekday() == 0:
+    this_monday = today
+else:
+    this_monday = (datetime.now() - timedelta(days=datetime.now().weekday())).strftime('%Y-%m-%d')
+
 last_monday = (datetime.now() - timedelta(days=datetime.now().weekday()) - timedelta(days=7)).strftime('%Y-%m-%d')
 last_2x_monday = (datetime.now() - timedelta(days=datetime.now().weekday()) - timedelta(days=14)).strftime('%Y-%m-%d')
 
