@@ -7,7 +7,7 @@ from sql import agg_daily_app_store_data
 
 import datetime
 import mysql.connector
-from tqdm import tqdm
+# from tqdm import tqdm
 
 print('Starting job {}'.format('daily_app_store_data'))
 
@@ -22,8 +22,8 @@ start = (datetime.datetime.now() - datetime.timedelta(days=1000))
 end = (datetime.datetime.now() - datetime.timedelta(days=0))
 date_generated = [start + datetime.timedelta(days=x) for x in range(0, (end-start).days)]
 
-sdate = datetime.date(2020, 5, 1)
-edate = datetime.date(2020, 5, 7)
+sdate = datetime.date(2020, 5, 5)
+edate = datetime.date(2020, 8, 21)
 delta = edate - sdate
 
 date_generated = []
@@ -38,7 +38,7 @@ date_list = []
 for date in date_generated:
     date_list.append(date.strftime("%Y-%m-%d"))
 
-for date in tqdm(date_list):
+for date in date_list:
     data_stores = fu.get_store_reports_per_day(date)
 
     for data in data_stores:

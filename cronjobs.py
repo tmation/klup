@@ -20,6 +20,9 @@ else:
 last_monday = (datetime.now() - timedelta(days=datetime.now().weekday()) - timedelta(days=7)).strftime('%Y-%m-%d')
 last_2x_monday = (datetime.now() - timedelta(days=datetime.now().weekday()) - timedelta(days=14)).strftime('%Y-%m-%d')
 
+
+
+
 sched = BlockingScheduler()
 
 
