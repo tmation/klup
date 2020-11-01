@@ -71,7 +71,7 @@ def execute_analytics_klupper_user_type_daily():
 @sched.scheduled_job('cron', day_of_week='mon-sun', hour=5, id='agg_core_kpis_daily')
 def execute_agg_core_kpis_daily():
     run_pipeline(db_name='klup_production', table_name='agg_core_kpis_daily',
-                 query_params={'START_DATE': today_minus_3_day, 'END_DATE': today, 'TIME_INTERVAL': 'DAY'})
+                 query_params={'START_DATE': today_minus_7_day, 'END_DATE': today, 'TIME_INTERVAL': 'DAY'})
 
 
 # AGG_CORE_KPIS_WEEKLY
