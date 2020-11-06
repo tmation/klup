@@ -11,6 +11,8 @@ today = datetime.now().strftime('%Y-%m-%d')
 today_minus_3_day = (datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d')
 today_minus_7_day = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
 day_first_last_month = (datetime.today().replace(day=1, month=datetime.today().month - 1)).strftime('%Y-%m-%d')
+first_day_of_current_month = date.today().replace(day=1)
+last_day_of_previous_month = first_day_of_current_month - timedelta(days=1)
 
 if date.today().weekday() == 0:
     this_monday = today
@@ -86,6 +88,12 @@ def execute_agg_core_kpis_weekly():
 def execute_agg_core_kpis_monthly():
     run_pipeline(db_name='klup_production', table_name='agg_core_kpis_monthly',
                  query_params={'START_DATE': day_first_last_month, 'END_DATE': today, 'TIME_INTERVAL': 'MONTH'})
+
+# AGG_CORE_KPIS_MONTHLY Re-execute for accurate google figures
+@sched.scheduled_job('cron', day='4', hour=5, id='agg_core_kpis_monthly')
+def execute_agg_core_kpis_monthly():
+    run_pipeline(db_name='klup_production', table_name='agg_core_kpis_monthly',
+                 query_params={'START_DATE': day_first_last_month, 'END_DATE': last_day_of_previous_month, 'TIME_INTERVAL': 'MONTH'})
 
 
 ### GSHEET JOBS
