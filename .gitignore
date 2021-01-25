@@ -13,6 +13,7 @@ sql/agg_core_kpis_daily/NEW_QUERY_TEST.sql
 _secrets/*
 __pycache__/*
 venv/*
+venv_py
 .idea/*
 .vscode/*
 archive/*.env

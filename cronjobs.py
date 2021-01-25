@@ -72,19 +72,32 @@ def execute_analytics_klupper_user_type_daily():
     run_pipeline(db_name='klup_production', table_name='analytics_klupper_user_type_daily',
                  query_params={'DATE': today})
 
-
+### BACKFILL
 # AGG_CORE_KPIS_DAILY
 @sched.scheduled_job('cron', day_of_week='mon-sun', hour=5, id='agg_core_kpis_daily')
 def execute_agg_core_kpis_daily():
     run_pipeline(db_name='klup_production', table_name='agg_core_kpis_daily',
-                 query_params={'START_DATE': today_minus_7_day, 'END_DATE': today, 'TIME_INTERVAL': 'DAY'})
+                 query_params={'START_DATE': '2020-12-31', 'END_DATE': today, 'TIME_INTERVAL': 'DAY'})
 
 
 # AGG_CORE_KPIS_WEEKLY
 @sched.scheduled_job('cron', day_of_week='mon', hour=5, id='agg_core_kpis_weekly')
 def execute_agg_core_kpis_weekly():
     run_pipeline(db_name='klup_production', table_name='agg_core_kpis_weekly',
-                 query_params={'START_DATE': last_2x_monday, 'END_DATE': this_monday, 'TIME_INTERVAL': 'WEEK'})
+                 query_params={'START_DATE': '2020-12-28', 'END_DATE': this_monday, 'TIME_INTERVAL': 'WEEK'})
+
+# # AGG_CORE_KPIS_DAILY
+# @sched.scheduled_job('cron', day_of_week='mon-sun', hour=5, id='agg_core_kpis_daily')
+# def execute_agg_core_kpis_daily():
+#     run_pipeline(db_name='klup_production', table_name='agg_core_kpis_daily',
+#                  query_params={'START_DATE': today_minus_7_day, 'END_DATE': today, 'TIME_INTERVAL': 'DAY'})
+#
+#
+# # AGG_CORE_KPIS_WEEKLY
+# @sched.scheduled_job('cron', day_of_week='mon', hour=5, id='agg_core_kpis_weekly')
+# def execute_agg_core_kpis_weekly():
+#     run_pipeline(db_name='klup_production', table_name='agg_core_kpis_weekly',
+#                  query_params={'START_DATE': last_2x_monday, 'END_DATE': this_monday, 'TIME_INTERVAL': 'WEEK'})
 
 
 # AGG_CORE_KPIS_MONTHLY
