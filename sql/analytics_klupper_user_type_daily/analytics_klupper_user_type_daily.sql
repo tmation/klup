@@ -21,7 +21,7 @@ dates AS (
 					m.begin_date AS membership_begin,
 					m.end_date AS membership_end,
 					aakd.third_friend_request_date,
-                    k.last_active_date,
+                    lad.last_active_date,
 					CASE 
 						WHEN aakd.is_invited = 1 THEN aakd.second_activity_date
 						ELSE aakd.first_activity_date
@@ -64,7 +64,7 @@ dates AS (
 					END AS is_organizer_member,
                     
                     CASE
-						WHEN DATE(d.datestr) - INTERVAL '180' DAY >= k.last_active_date THEN TRUE
+						WHEN DATE(d.datestr) - INTERVAL '180' DAY >= lad.last_active_date THEN TRUE
                         ELSE FALSE
 					END AS is_dormant_member
 
@@ -72,6 +72,9 @@ dates AS (
 
 	LEFT JOIN 		klupper k 
 	ON 				1=1
+
+	LEFT JOIN       klupper_last_active_date lad
+	ON              lad.klupper_id = k.id
 
 	LEFT JOIN		membership m 
 	ON				m.klupper_id = k.id
