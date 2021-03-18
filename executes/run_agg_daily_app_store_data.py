@@ -19,7 +19,7 @@ def cronjob():
         database=config.DB_KLUP_NAME
     )
 
-    start = (datetime.datetime.now() - datetime.timedelta(days=2))
+    start = (datetime.datetime.now() - datetime.timedelta(days=4))
     end = (datetime.datetime.now() - datetime.timedelta(days=0))
     date_generated = [start + datetime.timedelta(days=x) for x in range(0, (end-start).days)]
 
