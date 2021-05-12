@@ -22,8 +22,8 @@ start = (datetime.datetime.now() - datetime.timedelta(days=1000))
 end = (datetime.datetime.now() - datetime.timedelta(days=0))
 date_generated = [start + datetime.timedelta(days=x) for x in range(0, (end-start).days)]
 
-sdate = datetime.date(2020, 5, 5)
-edate = datetime.date(2020, 8, 21)
+sdate = datetime.date(2020, 10, 1)
+edate = datetime.date(2020, 10, 1)
 delta = edate - sdate
 
 date_generated = []
